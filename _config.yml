@@ -1,0 +1,30 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Listenings
+description:      'The [somewhat] technical blog of Brooks Swinnerton, software engineer and instructor at <a href="https://generalassemb.ly/instructors/brooks-swinnerton/2516">General Assembly</a>.'
+url:              http://listenin.gs
+baseurl:          /
+
+author:
+  name:           'Brooks Swinnerton'
+  url:            https://listenin.gs
+
+paginate:         5
+
+# Social media links for sidebar
+social_links:
+  - github:
+    title:        GitHub
+    url:          'http://github.com/bswinnerton'
+  - twitter:
+    title:        Twitter
+    url:          'http://twitter.com/bswinnerton'
+  - linkedin:
+    title:        LinkedIn
+    url:          'https://www.linkedin.com/profile/view?id=24601096'
