@@ -23,8 +23,6 @@
       {% endfor %}
       {% endcomment %}
 
-      <a class="sidebar-nav-item" href="http://brooks.swinnerton.me">About</a>
-      {{ site.social_links.github.title }}
       {% for link in site.social_links %}
         <a class="sidebar-nav-item" href="{{ link.url }}">{{ link.title }}</a>
       {% endfor %}
