@@ -84,7 +84,7 @@ Now let's configure Paperclip. These instructions come right from their [readme]
     </div>
     ```
 
-6. Also, let's make sure that strong_params allows us to add an image. In `app/controllers/pictures_controller.rb`, let's add `:image` to the `.permit()`:
+6. Also, let's make sure that strong\_params allows us to add an image. In `app/controllers/pictures_controller.rb`, let's add `:image` to the `.permit()`:
 
     ```ruby
     params.require(:image).permit(:title, :image)

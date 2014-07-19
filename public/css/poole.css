@@ -175,6 +175,10 @@ pre code {
   color: inherit;
   background-color: transparent;
 }
+p code {
+  word-break: keep-all;
+  word-wrap: break-word;
+}
 
 /* Pygments via Jekyll */
 .highlight {
