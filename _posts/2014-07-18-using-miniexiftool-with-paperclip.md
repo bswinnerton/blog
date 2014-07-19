@@ -117,7 +117,7 @@ Awesome. Now we have a way to upload images, the next step is to make sure that 
 after_post_process :save_latlong
 ```
 
-Once we add that, let's add the method `copy_exif_data` as well as a helper method that will allow us to parse latitude and longitudes from the exif data:
+Once we've added that Paperclip `after` hook, let's add the method `save_latlong` as well as a helper method that will allow us to parse latitude and longitudes from the exif data:
 
 ```ruby
 private
