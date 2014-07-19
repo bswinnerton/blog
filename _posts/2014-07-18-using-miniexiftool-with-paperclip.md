@@ -38,7 +38,11 @@ gem 'mini_exiftool'
 
 > Again, if you plan on going to Heroku, you should probably be using `gem 'mini_exiftool_vendored'` instead, which includes the Perl Exiftool library.
 
-And run `bundle` to install those gems.
+And then install the new gems:
+
+```bash
+bundle
+```
 
 ### Configuring Paperclip
 
@@ -87,7 +91,7 @@ Now let's configure Paperclip. These instructions come right from their [readme]
 6. Also, let's make sure that strong\_params allows us to add an image. In `app/controllers/pictures_controller.rb`, let's add `:image` to the `.permit()`:
 
     ```ruby
-    params.require(:image).permit(:title, :image)
+    params.require(:picture).permit(:title, :image)
     ```
 
 7. Sweet! We can now add pictures. The last step is to make sure that we can see the images once we've added them. In `app/views/pictures/show.html.erb`, let's add a way to view our images before the `<%= link_to 'Edit' %>`:
@@ -110,7 +114,7 @@ rake db:migrate
 Awesome. Now we have a way to upload images, the next step is to make sure that we're copying the exif data to the model when Paperclip saves an image. Luckily, Paperclip gives us a method called `after_post_process` that we can call in our model that will direct Paperclip to run the method passed as an argument right after it finishes the post processing of the image. Let's take advantage of that in `app/models/picture.rb`:
 
 ```ruby
-after_post_process :copy_exif_data
+after_post_process :save_latlong
 ```
 
 Once we add that, let's add the method `copy_exif_data` as well as a helper method that will allow us to parse latitude and longitudes from the exif data:
@@ -118,27 +122,29 @@ Once we add that, let's add the method `copy_exif_data` as well as a helper meth
 ```ruby
 private
 
-def copy_exif_data
+def save_latlong
   exif_data = MiniExiftool.new(image.queued_for_write[:original].path)
   self.latitude = parse_latlong(exif_data['gpslatitude'])
   self.longitude = parse_latlong(exif_data['gpslongitude'])
 end
 
 def parse_latlong(latlong)
-  latlong.scan(/(.*) deg (.*)' (.*)" (.*)/).map do |d,m,s,r|
-    calc = d.to_f + m.to_f/60 + s.to_f/3600
-    if ['S', 'W'].include? r
-      -calc
-    else
-      calc
-    end
-  end.last
+  return unless latlong
+  match, degrees, minutes, seconds, rotation = /(\d+) deg (\d+)' (.*)" (\w)/.match(latlong).to_a
+  calculate_latlong(degrees, minutes, seconds, rotation)
+end
+
+def calculate_latlong(degrees, minutes, seconds, rotation)
+  calculated_latlong = degrees.to_f + minutes.to_f/60 + seconds.to_f/3600
+  ['S', 'W'].include?(rotation) ? -calculated_latlong : calculated_latlong
 end
 ```
 
+> The particular parsing and calculation logic that I'm using above is parsing a string that the iPhone uses to store the format of latitude and longitude (e.g. "40 deg 41' 22.22" N"). It's possible that if this is coming from a non-iPhone that it may be stored in a different format and you will need to change the regular expression.
+
 ### Google Maps
 
-Sweet, so we have a creepy application set up on the back end, let's show the user where the image was taken on the front end. We're going to be using an iframe to embed a google map on the `Picture#show` page. In order to do that, we have to get an API key from Google. We can get one, here: [https://code.google.com/apis/console](https://code.google.com/apis/console).
+Sweet, so we have a creepy application set up on the back end, let's show the user where the image was taken on the front end. We're going to be using an iframe to embed a Google Map on the `Picture#show` page. In order to do that, we have to get an API key from Google. We can get one, here: [https://code.google.com/apis/console](https://code.google.com/apis/console).
 
 This will allow us to query Google Maps, but we want to make sure that if this is an open source repository, we're never adding that API key to version control, since if it got into the wrong hands, our Google Maps functionality could be disabled by Google.
 
@@ -175,6 +181,6 @@ This will now allow us to access the key as so anywhere in our Rails code: `ENV[
 <br>
 ```
 
-Let's fire up our rails server with `rails s`, and now we should be displaying the location of where our image was taken! Go ahead and upload a new image and see if it can accurately pinpoint where that image was taken.
+Let's fire up our rails server with `rails s`, and browse to `http://localhost:3000/pictures`. Go ahead and upload a new image and see if it can accurately pinpoint where that image was taken.
 
-![creeper_screenshot](http://i.imgur.com/udAXXCx.png)
+![creeper\_screenshot](http://i.imgur.com/udAXXCx.png)
