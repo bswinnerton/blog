@@ -1,6 +1,3 @@
----
----
-
 /*
  *  __                  __
  * /\ \                /\ \
@@ -58,6 +55,7 @@ html {
 
 .sidebar {
   text-align: center;
+  font-size: .8rem;
   padding: 2rem 1rem;
   color: rgba(255,255,255,.5);
   background-color: #202020;
@@ -71,6 +69,12 @@ html {
     width: 18rem;
     text-align: left;
   }
+}
+
+.sidebar .logo {
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Sidebar links */
@@ -92,7 +96,7 @@ html {
 }
 
 .sidebar-about p {
-  font-size: 1rem;
+  font-size: .9rem;
 }
 
 /* Sidebar nav */
@@ -239,7 +243,7 @@ a.sidebar-nav-item:focus {
 }
 .theme-base-0d .content a,
 .theme-base-0d .related-posts li a:hover {
-  color: #6a9fb5;
+  color: #89c0c7;
 }
 
 /* Magenta */

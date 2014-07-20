@@ -1,5 +1,6 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
+    <img class="logo" src="/public/images/logo.svg" alt="Listenin.gs Logo"/>
     <div class="sidebar-about">
       <h1>
         <a href="{{ site.baseurl }}">
@@ -10,8 +11,6 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.baseurl }}">Home</a>
-
       {% comment %}
       {% assign pages_list = site.pages %}
       {% for node in pages_list %}
@@ -23,9 +22,11 @@
       {% endfor %}
       {% endcomment %}
 
-      {% for link in site.social_links %}
-        <a class="sidebar-nav-item" href="{{ link.url }}">{{ link.title }}</a>
+      <div class="social-links">
+      | {% for link in site.social_links %}
+        <a class="sidebar-nav-item" href="{{ link.url }}">{{ link.title }}</a> |
       {% endfor %}
+      </div>
     </nav>
 
     <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
