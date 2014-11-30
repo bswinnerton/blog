@@ -157,3 +157,38 @@ const uint16_t fn_actions[] PROGMEM = {
     [1] = ACTION_LAYER_TOGGLE(2)
 };
 ```
+
+Lastly, I've also fine tuned the mouse keys to my liking (decreasing the lag
+time from when pressed), in the `./common/mousekey.h` file:
+
+```c
+#define MOUSEKEY_MOVE_MAX       127
+#define MOUSEKEY_WHEEL_MAX      127
+
+#ifndef MOUSEKEY_MOVE_DELTA
+#define MOUSEKEY_MOVE_DELTA     5
+#endif
+#ifndef MOUSEKEY_WHEEL_DELTA
+#define MOUSEKEY_WHEEL_DELTA    1
+#endif
+#ifndef MOUSEKEY_DELAY
+#define MOUSEKEY_DELAY 0
+#endif
+#ifndef MOUSEKEY_INTERVAL
+#define MOUSEKEY_INTERVAL 30
+#endif
+#ifndef MOUSEKEY_MAX_SPEED
+#define MOUSEKEY_MAX_SPEED 7
+#endif
+#ifndef MOUSEKEY_TIME_TO_MAX
+#define MOUSEKEY_TIME_TO_MAX 20
+#endif
+#ifndef MOUSEKEY_WHEEL_MAX_SPEED
+#define MOUSEKEY_WHEEL_MAX_SPEED 8
+#endif
+#ifndef MOUSEKEY_WHEEL_TIME_TO_MAX
+#define MOUSEKEY_WHEEL_TIME_TO_MAX 40
+#endif
+```
+
+You can see all of my customizations, [here](https://github.com/bswinnerton/tmk_keyboard).
