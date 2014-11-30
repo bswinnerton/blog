@@ -123,7 +123,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
            LSFT,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,RSFT,FN0,           \
                 LALT,LGUI,          SPC,                RGUI,FN1),
 
-    /* Layer 2: Mouse Mode for WASD
+    /* Layer 2: Mouse Mode for HJKL
      * ,-----------------------------------------------------------.
      * |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  \|  `|
      * |-----------------------------------------------------------|
@@ -137,13 +137,11 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
      *       `-------------------------------------------'
      */
     KEYMAP(ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSLS,GRV, \
-           TAB, Q,   MS_U,   E,   R,   T,   Y,   U,   I,   O,   P,LBRC,RBRC,BSPC,     \
-           LCTL,MS_L,MS_D,MS_R,   F,   G,   H,   J,   K,   L,SCLN,QUOT,ENT,           \
+           TAB, Q,   MS_U,E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSPC,        \
+           LCTL,MS_L,MS_D,MS_R,F,   G,   H,   J,   K,   L,   SCLN,QUOT,ENT,           \
            LSFT,Z,   X,   C,   V,   B,   N,   M,   COMM,DOT, SLSH,RSFT,FN0,           \
                 LALT,LGUI,          BTN1,               RGUI,FN1),
 };
-
-
 
 /*
  * Fn action definition
