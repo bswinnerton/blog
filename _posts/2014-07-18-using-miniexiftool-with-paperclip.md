@@ -50,55 +50,55 @@ Now let's configure Paperclip. These instructions come right from their [readme]
 
 1. Edit your `Picture` model (`app/models/picture.rb`) and add:
 
-    ```ruby
-    has_attached_file :image
-    validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
-    ```
+  ```ruby
+  has_attached_file :image
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+  ```
 
 2. Create a migration to add the Paperclip attributes to the `Picture` model:
 
-    ```bash
-    rails g migration AddImageToPictures
-    ```
+  ```bash
+  rails g migration AddImageToPictures
+  ```
 
 3. In the newly generated `/db/migrate/` file, replace the blank `change` method with the following code:
 
-    ```ruby
-    def self.up
-      add_attachment :pictures, :image
-    end
+  ```ruby
+  def self.up
+    add_attachment :pictures, :image
+  end
 
-    def self.down
-      remove_attachment :pictures, :image
-    end
-    ```
+  def self.down
+    remove_attachment :pictures, :image
+  end
+  ```
 
 4. And then migrate the database:
 
-    ```bash
-    rake db:migrate
-    ```
+  ```bash
+  rake db:migrate
+  ```
 
 5. Great. Now the model is set up, but we need to make sure that our views have a way of uploading pictures. Let's update `app/views/pictures/_form.html.erb` and add the following immediately before the submit button's `div`:
 
-    ```erb
-    <div class="field">
-      <%= f.label :image %><br>
-      <%= f.file_field :image %>
-    </div>
-    ```
+  ```erb
+  <div class="field">
+    <%= f.label :image %><br>
+    <%= f.file_field :image %>
+  </div>
+  ```
 
 6. Also, let's make sure that strong\_params allows us to add an image. In `app/controllers/pictures_controller.rb`, let's add `:image` to the `.permit()`:
 
-    ```ruby
-    params.require(:picture).permit(:title, :image)
-    ```
+  ```ruby
+  params.require(:picture).permit(:title, :image)
+  ```
 
 7. Sweet! We can now add pictures. The last step is to make sure that we can see the images once we've added them. In `app/views/pictures/show.html.erb`, let's add a way to view our images before the `<%= link_to 'Edit' %>`:
 
-    ```erb
-    <%= image_tag @picture.image.url, width: 600 %><br>
-    ```
+  ```erb
+  <%= image_tag @picture.image.url, width: 600 %><br>
+  ```
 
 ### Configuring Geolocation
 
