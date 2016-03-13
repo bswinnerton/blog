@@ -1,11 +1,9 @@
 ---
 layout: post
-title: Installing Postgres On Yo Mac
+title: Installing Postgres
 ---
 
-For reasons unknown to humanity, the Postgres gods have made installing and configuring Postgres on your local machine incredibly unintuitive. These are the steps that I typically follow on a Mac:
-
-First, install Postgres:
+These are the steps that I typically follow on a Mac to install Postgres from scratch:
 
 ```bash
 brew install postgres
