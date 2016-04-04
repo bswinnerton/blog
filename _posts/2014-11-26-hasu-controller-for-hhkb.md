@@ -3,11 +3,6 @@ layout: post
 title: The hasu controller for the Happy Hacking Keyboard
 ---
 
-So there's nerd status, and then there's _nerd_ status. Today, I can proudly
-say that I've finally hit _nerd_ status. About six months ago, I purchased a
-[Happy Hacking Keyboard](http://imgur.com/a/TnlGf) (an expense your significant
-other will never forgive you for), and I've never looked back.
-
 Today, I received
 [Hasu's alternative controller](https://geekhack.org/index.php?topic=12047.0)
 for the HHKB. It gives you some pretty impressive functionality, like vi mode
