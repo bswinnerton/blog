@@ -1,0 +1,95 @@
+body {
+  margin-top: 60px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 72px;
+}
+
+h2 {
+  font-size: 64px;
+}
+
+p {
+  font-size: 19px;
+  line-height: 1.7;
+  letter-spacing: 0.4px;
+}
+
+a {
+  color: #96B5B4;
+}
+
+a:hover {
+  color: #65737E;
+}
+
+img {
+  width: 100%;
+}
+
+hr {
+  margin: 0 0 40px;
+}
+
+blockquote {
+  border-width: 0px 0px 0px 3px;
+  border-style: solid;
+  border-color: #4F5B66;
+  padding-left: 15px;
+}
+
+blockquote p {
+  color: #4F5B66;
+  font-size: 17px;
+}
+
+code {
+  background-color: #EFF1F5;
+  color: #4F5B66;
+  font-size: 15px;
+}
+
+pre code {
+  background: none;
+  color: #EFF1F5;
+}
+
+.heading h5 {
+  font-size: 16px;
+  color: #666666;
+}
+
+.heading .issue-number {
+  text-align: left;
+}
+
+.heading .date {
+  font-size: 14px;
+  text-align: right;
+}
+
+.author {
+  font-size: 14px;
+  color: #666666;
+}
+
+.copyright {
+  font-size: 12px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+/* Mobile */
+
+@media (max-width: 400px) {
+  h2 {
+    font-size: 48px;
+  }
+}

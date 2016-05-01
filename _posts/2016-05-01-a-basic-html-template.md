@@ -1,6 +1,7 @@
 ---
 layout: post
 title: A basic HTML template
+author: Brooks Swinnerton
 ---
 
 This is a basic HTML template that I reach for when creating a new webpage.
