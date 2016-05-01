@@ -1,6 +1,6 @@
 body {
-  margin-top: 60px;
   font-family: 'Source Sans Pro', sans-serif;
+  margin-top: 60px;
 }
 
 h1, h2 {
@@ -66,13 +66,8 @@ pre code {
   color: #666666;
 }
 
-.heading .issue-number {
-  text-align: left;
-}
-
 .heading .date {
   font-size: 14px;
-  text-align: right;
 }
 
 .author {

@@ -6,12 +6,9 @@
 <body>
   <div class="container">
     <div class="row heading">
-      <div class="six columns">
-        <h5 class="issue-number">&#8470; {% for post in site.posts reversed %}{% if post.title == page.title %}{{ forloop.index }}{% endif %}{% endfor %}</h5>
-      </div>
-
-      <div class="six columns">
-        <h5 class="date">{{ page.date | date: "%B %-d, %Y" }}</h5>
+      <div class="twelve columns">
+        <h5 class="issue-number u-pull-left">&#8470; {% for post in site.posts reversed %}{% if post.title == page.title %}{{ forloop.index }}{% endif %}{% endfor %}</h5>
+        <h5 class="date u-pull-right">{{ page.date | date: "%B %-d, %Y" }}</h5>
       </div>
     </div>
     <hr>
