@@ -5,7 +5,7 @@ title: Installing Postgres
 
 These are the steps that I typically follow on a Mac to install Postgres from scratch:
 
-```bash
+```
 brew install postgres
 ```
 
@@ -17,7 +17,7 @@ Once Postgres has been installed, you'll need to start the server (which the out
 
 The next step is to create a user that your web applications can use to connect to the database. Typically when working with rails applications, the convention seems to be creating a user named `rails`. You can do so with the following command:
 
-```bash
+```
 createuser rails
 ```
 
@@ -25,7 +25,7 @@ createuser rails
 
 Next up, give that user some superpowers. You'll need to make your new user a superuser in order to have the ability to create new databases with commands like `rake db:create` or `rake db:migrate`. To do so, open up a Postgres console to the default table:
 
-```bash
+```
 psql template1
 ```
 
