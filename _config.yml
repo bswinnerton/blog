@@ -1,15 +1,14 @@
 # Dependencies
-markdown:         redcarpet
+markdown:         kramdown
 highlighter:      pygments
-gems:
-  - jekyll-sitemap
+exclude:          [vendor]
 
 # Permalinks
 permalink:        pretty
 
 # Setup
 title:            Listenings
-description:      'The [somewhat] technical blog of Brooks Swinnerton, software engineer and instructor at <a href="https://generalassemb.ly/instructors/brooks-swinnerton/2516">General Assembly</a>.'
+description:      'The ramblings of Brooks'
 url:              http://listenin.gs
 baseurl:          /
 
