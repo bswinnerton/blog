@@ -3,8 +3,8 @@ layout: post
 title: A basic HTML template
 ---
 
-This is a basic HTML template that I reach for when creating a new basic
-webpage. There are many like it, but this is mine.
+This is a basic HTML template that I reach for when creating a new webpage.
+There are many like it, but this is mine.
 
 ```html
 <!doctype html>
