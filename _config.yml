@@ -1,19 +1,19 @@
 # Dependencies
-markdown:         kramdown
-highlighter:      rouge
-exclude:          [vendor]
+markdown:     kramdown
+highlighter:  rouge
+exclude:      [vendor]
 
 # Permalinks
-permalink:        pretty
+permalink:    pretty
 
 # Setup
-title:            Listenings
-description:      'The ramblings of Brooks'
-url:              http://listenin.gs
-baseurl:          /
+title:        Listenings
+description:  'The ramblings of Brooks'
+url:          http://listenin.gs
+baseurl:      /
 
 author:
-  name:           'Brooks Swinnerton'
-  url:            https://twitter.com/bswinnerton
+  name:       'Brooks Swinnerton'
+  url:        https://twitter.com/bswinnerton
 
-paginate:         5
+paginate:     5
