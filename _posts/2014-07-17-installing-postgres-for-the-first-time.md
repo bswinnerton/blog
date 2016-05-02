@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Installing Postgres
+author: Brooks Swinnerton
 ---
 
 These are the steps that I typically follow on a Mac to install Postgres from scratch:

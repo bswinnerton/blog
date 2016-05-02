@@ -1,6 +1,7 @@
 ---
 layout: post
 title: The hasu controller for the Happy Hacking Keyboard
+author: Brooks Swinnerton
 ---
 
 Today, I received

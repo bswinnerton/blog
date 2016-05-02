@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Using Miniexiftool and Paperclip to plot image locations
+author: Brooks Swinnerton
 ---
 
 Have you ever wondered to yourself how the Photos app on your iPhone always knows where you took that picture? What most people don't realize is that the information of where that picture was taken (among many other things) is often stored within the metadata of that photo.
