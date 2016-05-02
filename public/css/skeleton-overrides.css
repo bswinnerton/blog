@@ -1,9 +1,14 @@
+blockquote {
+  margin-left: 5px;
+}
+
 code {
   background: none;
   border: none;
   border-radius: 0;
 }
 
-blockquote {
-  margin-left: 5px;
+p code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
