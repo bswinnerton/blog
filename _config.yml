@@ -10,7 +10,7 @@ permalink:    pretty
 title:        Listenings
 description:  'The ramblings of Brooks'
 url:          http://listenin.gs
-baseurl:      /
+baseurl:
 
 author:
   name:       'Brooks Swinnerton'

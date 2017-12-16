@@ -14,11 +14,11 @@
     {% endif %}
   </title>
 
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/normalize.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/skeleton.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/skeleton-overrides.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/syntax.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/styles.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/normalize.css?{{site.time | date: '%s%N'}}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/skeleton.css?{{site.time | date: '%s%N'}}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/skeleton-overrides.css?{{site.time | date: '%s%N'}}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/syntax.css?{{site.time | date: '%s%N'}}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/styles.css?{{site.time | date: '%s%N'}}">
 
   <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
