@@ -16,7 +16,7 @@ h2 {
   font-size: 60px;
 }
 
-p {
+p, li {
   font-size: 19px;
   line-height: 1.7;
   letter-spacing: 0.4px;
@@ -59,6 +59,10 @@ code {
 pre code {
   background: none;
   color: #EFF1F5;
+}
+
+li {
+  margin-left: 19px;
 }
 
 .heading .issue-number {
