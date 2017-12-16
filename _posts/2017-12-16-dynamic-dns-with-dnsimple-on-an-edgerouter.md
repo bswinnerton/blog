@@ -41,7 +41,7 @@ RECORD_ID="1234567"       # Replace with the Record ID
 
 - `TOKEN`: You can create a token using [this](https://support.dnsimple.com/articles/api-access-token/) guide.
 - `ACCOUNT_ID`: Your account ID can be determined by modifying any DNS record in DNSimple and looking in the URL. It's the value that comes after `/a/`.
-- `ZONE_ID`: The zone ID is the domain name (or "zone") that you're updating
+- `ZONE_ID`: The zone ID is the domain name (or "zone") that you're updating.
 - `RECORD_ID`: The record ID is the actual DNS record ID that you would like to update. Similar to the account ID, this can be determined by looking at the URL when modifying the record in question.
 
 Once you've entered in the appropriate values, it's a good idea to double check that the script is working. I'd recommend changing the IP address of the DNS record in question to something you know is incorrect like `8.8.8.8`, and then running `/config/scripts/ddns.sh` and verifying the correct value comes in.
