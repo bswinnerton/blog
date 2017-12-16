@@ -33,9 +33,9 @@
     <div class="row heading">
       <div class="twelve columns">
         {% if page.url == "/" %}
-          <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}">Listenings</a></h5>
+          <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}/">Listenings</a></h5>
         {% else %}
-          <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}">&#8470; {% for post in site.posts reversed %}{% if post.title == page.title %}{{ forloop.index }}{% endif %}{% endfor %}</a></h5>
+          <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}/">&#8470; {% for post in site.posts reversed %}{% if post.title == page.title %}{{ forloop.index }}{% endif %}{% endfor %}</a></h5>
         {% endif %}
       </div>
     </div>
