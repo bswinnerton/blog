@@ -9,15 +9,11 @@ h1, h2 {
 }
 
 h1 {
-  font-size: 72px;
-}
-
-h2 {
-  font-size: 60px;
+  font-size: 70px;
 }
 
 p, li {
-  font-size: 19px;
+  font-size: 22px;
   line-height: 1.7;
   letter-spacing: 0.4px;
 }
@@ -96,7 +92,7 @@ li {
 /* Mobile */
 
 @media (max-width: 400px) {
-  h2 {
+  h1 {
     font-size: 48px;
   }
 }
