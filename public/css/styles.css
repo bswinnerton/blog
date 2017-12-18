@@ -49,12 +49,13 @@ blockquote p {
 code {
   background-color: #EFF1F5;
   color: #4F5B66;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 pre code {
   background: none;
   color: #EFF1F5;
+  font-size: 15px;
 }
 
 li {
