@@ -8,7 +8,7 @@
 
   <title>
     {% if page.title == "Home" %}
-      {{ site.title }}
+      {{ site.title }} - Brooks Swinnerton's blog
     {% else %}
       {{ page.title }} &middot; {{ site.title }}
     {% endif %}
@@ -22,6 +22,7 @@
 
   <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cutive+Mono" rel="stylesheet">
 
   <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +34,7 @@
     <div class="row heading">
       <div class="twelve columns">
         {% if page.url == "/" %}
-          <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}/">Listenings</a></h5>
+          <h3 class="site-name"><a href="{{ site.baseurl }}/">./brooks.sh</a></h5>
         {% else %}
           <h5 class="issue-number u-pull-left"><a href="{{ site.baseurl }}/">&#8470; {% for post in site.posts reversed %}{% if post.title == page.title %}{{ forloop.index }}{% endif %}{% endfor %}</a></h5>
           <h5 class="issue-date u-pull-right">{{ page.date | date: "%B %-d, %Y"}}</h5>
