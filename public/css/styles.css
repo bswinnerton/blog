@@ -75,6 +75,11 @@ kbd {
   background-color: #F8F8F8;
 }
 
+.heading .site-name {
+  font-family: 'Cutive Mono', monospace;
+  text-align: center;
+}
+
 .heading .issue-number, .heading .issue-date {
   color: #666666;
   font-size: 16px;
@@ -82,7 +87,7 @@ kbd {
   margin-bottom: 10px;
 }
 
-.heading .issue-number a {
+.heading a {
   color: inherit;
   text-decoration: none;
 }

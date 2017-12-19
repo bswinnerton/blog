@@ -7,9 +7,9 @@ exclude:      [vendor]
 permalink:    pretty
 
 # Setup
-title:        Listenings
+title:        ./brooks.sh
 description:  'The ramblings of Brooks'
-url:          http://listenin.gs
+url:          http://brooks.sh
 baseurl:
 
 author:
