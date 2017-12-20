@@ -4,6 +4,10 @@ title: Using Clear Linux as a KVM Host
 author: Brooks Swinnerton
 ---
 
+Introduction to KVM
+
+Introduction to Clear Linux
+
 ## Install KVM
 
 ```
@@ -18,7 +22,35 @@ sudo systemctl enable libvirtd
 
 ## Configure Network
 
-TODO
+https://major.io/2015/03/26/creating-a-bridge-for-virtual-machines-using-systemd-networkd/
+
+`/etc/systemd/network/br0.netdev`
+
+```
+[NetDev]
+Name=br0
+Kind=bridge
+```
+
+`/etc/systemd/network/br0.network`
+
+```
+[Match]
+Name=br0
+
+[Network]
+DHCP=yes
+```
+
+`/etc/systemd/network/80-dhcp.network`
+
+```
+[Match]
+Name=eno1
+
+[Network]
+Bridge=br0
+```
 
 ## Build VMs
 
@@ -31,15 +63,12 @@ sudo mkdir /var/lib/libvirt/images
 sudo chown root:kvm /var/lib/libvirt/images/
 sudo chmod g+rwx /var/lib/libvirt/images/
 
-cd /var/lib/libvirt/isos/
-wget http://releases.ubuntu.com/16.04.3/ubuntu-16.04.3-desktop-amd64.iso
+wget -P /var/lib/libvirt/isos/ http://releases.ubuntu.com/16.04.3/ubuntu-16.04.3-desktop-amd64.iso
 
-cd /var/lib/libvirt/images/
-sudo qemu-img create -f qcow2 images/ubuntu.img 10G
-
-cd /var/lib/libvirt/
-sudo vim ubuntu.xml
+sudo qemu-img create -f qcow2 /var/lib/libvirt/images/ubuntu.img 10G
 ```
+
+`/var/lib/libvirt/ubuntu.xml`
 
 ```xml
 <domain type='kvm'>
