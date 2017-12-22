@@ -4,7 +4,7 @@ title: Configuring KVM on Clear Linux
 author: Brooks Swinnerton
 ---
 
-Every since stumbling on the subreddit [/r/homelab](https://www.reddit.com/r/homelab), I've been hooked on building a homelab of my own. I recently purchased two [Intel NUC](https://www.intel.com/content/www/us/en/products/boards-kits/nuc/kits/nuc7i3bnk.html) devices with the intent of setting up a [Kubernetes](https://kubernetes.io/) cluster to host my websites from my home.
+Ever since stumbling on the subreddit [/r/homelab](https://www.reddit.com/r/homelab), I've been hooked on building a homelab of my own. I recently purchased two [Intel NUC](https://www.intel.com/content/www/us/en/products/boards-kits/nuc/kits/nuc7i3bnk.html) devices with the intent of setting up a [Kubernetes](https://kubernetes.io/) cluster to host my websites from my home.
 
 In order for this project to work out I need more than two hosts, but I don't want to spend any more money on physical hardware. After reading a wonderful colleague's [blog post](https://blog.sophaskins.net/blog/setting-up-a-home-hypervisor/) on the benefits of setting up a hypervisor, I thought this would be a great way to 1) double the number of hosts available, and 2) offer some sort of DRAC-like functionality for when I'm not physically present to troubleshoot a problem. So I set out to make my two NUCs KVM hosts so that they can host virtual machines.
 
