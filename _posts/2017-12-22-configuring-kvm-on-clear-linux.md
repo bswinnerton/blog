@@ -28,7 +28,7 @@ As part of this installation process, a new Linux group has been added: `kvm`. I
 sudo usermod -G kvm -a brooks
 ```
 
-And finally, we start need to enable the `libvirtd` service, which is the toolkit that we use to manage the virtualized hosts:
+And finally, we need to enable the `libvirtd` service, which is the toolkit that we use to manage the virtualized hosts:
 
 ```
 sudo systemctl enable libvirtd
@@ -110,7 +110,7 @@ We hope to see `br0` as "routable", and don't have to worry about a setup of `co
 
 Now for the exciting part! Building and launching the virtual machines.
 
-First, let's start with creating a directory to store the ISOs that we'll use as the installation media:
+First, let's start with creating a directory to store the ISOs that we'll use for the installation media:
 
 ```
 sudo mkdir /var/lib/libvirt/isos/
@@ -118,7 +118,7 @@ sudo chown root:kvm /var/lib/libvirt/isos/
 sudo chmod g+rwx /var/lib/libvirt/isos/
 ```
 
-Next, let's do the same to store the virtual machine images:
+Next, let's create another directory to store the virtual machine images:
 
 ```
 sudo mkdir /var/lib/libvirt/images/
@@ -126,7 +126,7 @@ sudo chown root:kvm /var/lib/libvirt/images/
 sudo chmod g+rwx /var/lib/libvirt/images/
 ```
 
-The following step depends on which distribution of Linux that you would like to install. I opted for Debian, but just about anything would work here. We start by fetching the ISO from the internet
+The following step depends on which distribution of Linux that you would like to install. I opted for Debian, but just about anything would work here. We start by fetching the ISO from the internet:
 
 ```
 wget -P /var/lib/libvirt/isos/ https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.3.0-amd64-netinst.iso
@@ -138,9 +138,7 @@ Now we need to create a new disk image for the virtual machine to use. Here I'm 
 sudo qemu-img create -f qcow2 /var/lib/libvirt/images/debian.qcow2 10G
 ```
 
-In a distribution of Linux that has a GUI, you will commonly have the `virt-install` tool at your disposal to create the necessary configuration file for a virtual machine, but unfortunatlely that's unavailable to us in Clear Linux.
-
-I've opted for manually creating an XML file with the settings I'm interested in. Using your favorite text editor, create the XML file below:
+Next, we need to write a configuration file outlining the VM that we would like to create. In other Linux distributions that have a GUI, you'll commonly see people use `virt-install`, but unfortunately that's not available to us in Clear Linux, so we need to craft the file ourselves.
 
 `/var/lib/libvirt/debian.xml`
 
@@ -183,25 +181,25 @@ I've opted for manually creating an XML file with the settings I'm interested in
 </domain>
 ```
 
-The TL;DR of this file is that I'm creating a virtual machine named "debian" with 3GB of RAM, 2 CPUs, and three devices mounted: a NIC which will use the host's bridge interface, a CD drive to boot the ISO (which is what it will boot to), and the disk that we just created. Finally, I've configured the graphics to use VNC since this is a headless server and we'll need to access it from our own computer.
+The TL;DR of this file is that we're creating a virtual machine named "debian" with 3GB of RAM, 2 CPUs, and three devices mounted: a NIC which will use the host's bridge interface, a CD drive to boot the ISO, and the disk that we just created. Finally, I've configured the graphics to use VNC since there's no GUI on our installation of Clear Linux, so we'll need to access the VM remotely from another machine.
 
 If you're using a Mac, it's important to set a `passwd` value for the `<graphics />` tag as the built-in VNC client requires a password to work properly.
 
-If you plan on creating other VMs, you'll want to generate a new [UUID](https://www.uuidgenerator.net/) and [MAC address](http://www.centos.org/docs/5/html/5.2/Virtualization/sect-Virtualization-Tips_and_tricks-Generating_a_new_unique_MAC_address.html).
+If you plan on creating other VMs, you'll want to generate a different [UUID](https://www.uuidgenerator.net/) and [MAC address](http://www.centos.org/docs/5/html/5.2/Virtualization/sect-Virtualization-Tips_and_tricks-Generating_a_new_unique_MAC_address.html) for each subsequent file.
 
 ## Start VM
 
-Now we're ready to start the virtual machine. First, we define the virtual machine based on the XML file, which will cause it to persist after reboots, and then we turn it on.
+Now we're ready to start the virtual machine. First, we define the virtual machine based on the XML file (which will keep the system persisted after reboots) and then we turn it on.
 
 ```
-sudo virsh define /var/lib/libvirt/jupiter.xml
-sudo virsh start jupiter
+sudo virsh define /var/lib/libvirt/debian.xml
+sudo virsh start debian
 ```
 
 Finally, we can configure the machine to start automatically when the host turns on:
 
 ```
-sudo virsh autostart saturn
+sudo virsh autostart debian
 ```
 
 ## Connect to VM
@@ -220,12 +218,12 @@ And we should see similar output to:
 127.0.0.1:0
 ```
 
-The `:0` there is significant, it implies that the machine is listening over VNC on port `5900`. If the value was `127.0.0.1:1`, it would imply that the machine is listening over port `5901`.
+The `:0` there is significant. It implies that the machine is listening over VNC on port `5900`. If the value was `127.0.0.1:1`, it would imply that the machine is listening over port `5901`.
 
 We can create a reverse SSH tunnel to the KVM host so that any requests to localhost's port `5901`, it'll actually go to the virtual machine's port `5900`:
 
 ```
-ssh -L 5901:localhost:5900 -N brooks@nuc7i3.brooks.network
+ssh -L 5901:localhost:5900 -N user@kvmhost
 ```
 
 Next, in Finder, we open up the "Connect to Server" prompt with <kbd>Command</kbd> + <kbd>k</kbd>, and type in the address to our tunneled connection : `vnc://localhost:5901`.
@@ -240,9 +238,9 @@ Once your installation is complete, you'll need to shut down the virtual machine
 sudo virsh shutdown debian
 ```
 
-And then adjust the XML file so that the boot device is pointed to the hard drive.
+And then adjust the XML file so that the boot device is pointed to the hard drive since we no longer need the installer.
 
-We need to modify this line:
+We'll need to modify this line:
 
 ```xml
 <boot dev='cdrom'/>
@@ -254,7 +252,7 @@ To:
 <boot dev='hd'/>
 ```
 
-And then start your machine with:
+And then start your machine back up with:
 
 ```
 sudo virsh start debian
@@ -262,9 +260,9 @@ sudo virsh start debian
 
 ## Creating a Template for Future Images
 
-If you plan on making more virtual machines, instead of installing the OS from the installation media each time, you can instead create a "template image".
+If you plan on making more virtual machines, instead of installing the OS from the installation media each time, you can instead create an "template image".
 
-What's really neat about the `qcow2` format is that you can specify the "backing" image: the template. Then, in the image new non-template image, it only saves the _difference_ from the template, and more than one machine can share the same base image.
+What's really neat about the `qcow2` format is that you can specify the "backing" image. Then, in the image new _non_-template image, it only saves the _difference_ from the template, and more than one machine can share the same base image.
 
 To create the base image, start by powering off your virtual machines:
 
@@ -272,13 +270,13 @@ To create the base image, start by powering off your virtual machines:
 sudo virsh stop debian
 ```
 
-And then rename the debian image to be the template:
+And then rename the debian image to something that implies it's template:
 
 ```
 sudo mv /var/lib/libvirtd/images/debian.qcow2 /var/lib/libvirtd/images/template.qcow2
 ```
 
-And then create a new image which has a base of the template:
+And then create a new image which uses the template as a backing image:
 
 ```
 qemu-img create -f qcow2 -b template.qcow2 debian.qcow2
