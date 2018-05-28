@@ -174,6 +174,7 @@ Next, we need to write a configuration file outlining the VM that we would like 
     </disk>
     <interface type='bridge'>
       <source bridge='br0'/>
+      <model type='virtio'/>
       <mac address="00:16:3e:03:2e:5a"/>
     </interface>
     <graphics type='vnc' port='-1' autoport='yes' passwd='correcthorsebatterystaple'/>
