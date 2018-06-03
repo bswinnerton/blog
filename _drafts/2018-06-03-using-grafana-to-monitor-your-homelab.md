@@ -1,14 +1,52 @@
 ---
 layout: post
-title: Monitoring your homelab with Grafana in Docker
+title: Monitoring your home lab with Grafana in Docker
 author: Brooks Swinnerton
 ---
 
-I have a rather complex mix of physical hosts, KVM guests, and Docker containers that I'd like to monitor the health of.
+I have a rather complex mix of physical hosts, KVM guests, and Docker containers in my home lab that I'd like to monitor the health of.
 
-I use Grafana for this, and after taking the steps in this blog post, the final result looks something like this:
+I use Grafana for this, and after taking the steps in this blog post, the final result will look something like this:
 
 ![Grafana]({{ site.baseurl }}/public/images/grafana-docker.png)
+
+## Setting up Grafana
+
+Grafana is an open source metrics dashboard. I've chosen to run Grafana as a Docker container to reduce the memory footprint and avoid the maintenance overhead of having another host just for this application. Grafana itself is a standalone application that requires little to no configuration, other than how to fetch the metrics data. We'll be storing the metrics in proper data stores later in this blog post.
+
+We're going to start by creating two Docker volumes. One for Grafana's configuration file, and another for its persistent data (for example the dashboards). Volumes are handy because they counteract the ephemeral nature of containers; when a container is destroyed but brought back up with the same volume, everything will feel the same.
+
+```
+sudo docker volume create grafana-config
+sudo docker volume create grafana-data
+```
+
+This will result in two new folders on your Docker host: `/var/lib/docker/volumes/grafana-config/_data/` and `/var/lib/docker/volumes/grafana-data/_data/`. They'll start out empty, but once we get Grafana running, you'll notice data will start to appear in them.
+
+After that, we can run the following command to add the container:
+
+```
+sudo docker run -d \
+  --name="grafana" \
+  --restart=always \
+  --expose 3000 \
+  -v grafana-data:/var/lib/grafana \
+  -v grafana-config:/etc/grafana \
+  -e "GF_SECURITY_ADMIN_PASSWORD=hKg9szzXaQ7NkiRbT97n" \
+  grafana/grafana
+```
+
+This command is relatively intuitive, but to break it down piece by piece:
+
+- `sudo docker run`: Docker needs to run as root, so we preface the command with `sudo`.
+- `-d`: For Grafana, we'll want this container to run in the background as a "daemon".
+- `--restart=always`: This flag denotes that we want the system to always reboot the container in the event of a failure, as well as automatically when Docker starts.
+- `--expose 3000`: This will expose the internal port 3000 on the host's port 3000. This is the port that Grafana runs on, and how we'll access the web interface.
+- `-v grafana-data:/var/lib/grafana`: This mounts the `grafana-data` volume that we created earlier in container's filesystem at `/var/lib/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L9) as where it will look for the Grafana data.
+- `-v grafana-config:/etc/grafana`: This mounts the `grafana-config` volume that we created earlier in the container's filesystem at `/etc/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L8) as where it will look for the Grafana configuration.
+- `-e "GF_SECURITY_ADMIN_PASSWORD=hKg9szzXaQ7NkiRbT97n"`: This sets an environment variable that will be used by the container to set the default admin user's password. **You should change this value**.
+
+Now Grafana should be running on port `3000` of your Docker host.
 
 ## Node Exporter
 
