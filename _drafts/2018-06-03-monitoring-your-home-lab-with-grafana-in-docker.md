@@ -179,7 +179,7 @@ We'll use the following values to configure Prometheus:
 
 - **Name**: Prometheus
 - **Type**: Prometheus
-- **URL**: 10.70.117.5:9090 (again, you'll want to change this to your IP
+- **URL**: 10.70.117.5:9090 (again, you'll want to change this to your IP)
 
 Then scroll down to the bottom and choose "Save and test". If all goes well, a flash message should appear on the top right of the screen that says "Datasource updated".
 
