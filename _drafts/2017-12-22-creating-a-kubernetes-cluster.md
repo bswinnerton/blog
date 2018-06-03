@@ -9,6 +9,10 @@ https://kubernetes.io/docs/admin/high-availability/
 http://rabexc.org/posts/p9-setup-in-libvirt
 https://askubuntu.com/questions/179508/kvm-bridged-network-not-working
 
+https://github.com/kubernetes/ingress-nginx
+https://github.com/jetstack/kube-lego
+https://gist.github.com/sophaskins/1008c8260e5d1b28b670cd15952115e3
+
 ```
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
