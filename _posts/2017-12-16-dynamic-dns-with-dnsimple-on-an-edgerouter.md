@@ -23,9 +23,9 @@ DNSimple has a script that they recommend using [here](https://developer.dnsimpl
 
 Start by SSH'ing into your EdgeRouter, fetching the script, and making it executable:
 
-```
-curl -o /config/scripts/ddns.sh https://developer.dnsimple.com/ddns/ddns.sh
-chmod +x /config/scripts/ddns.sh
+```console
+$ curl -o /config/scripts/ddns.sh https://developer.dnsimple.com/ddns/ddns.sh
+$ chmod +x /config/scripts/ddns.sh
 ```
 
 You'll want to start by modifying the contents of that script in your favorite editor and filling out the appropriate values¹ at the top of the file:
@@ -48,8 +48,8 @@ Once you've entered in the appropriate values, it's a good idea to double check 
 
 Now you can configure the EdgeRouter to execute this script every minute:
 
-```
-configure
+```console
+$ configure
 set system task-scheduler task ddns executable path /config/scripts/ddns.sh
 set system task-scheduler task ddns interval 1m
 ```

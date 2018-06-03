@@ -6,8 +6,8 @@ author: Brooks Swinnerton
 
 These are the steps that I typically follow on a Mac to install Postgres from scratch:
 
-```
-brew install postgres
+```console
+$ brew install postgres
 ```
 
 > Don't have [brew](http://brew.sh/) (or know what it is)? Fear not: Brew is a package manager (a nerdy App Store) that can be installed with the following command:
@@ -18,16 +18,16 @@ Once Postgres has been installed, you'll need to start the server (which the out
 
 The next step is to create a user that your web applications can use to connect to the database. Typically when working with rails applications, the convention seems to be creating a user named `rails`. You can do so with the following command:
 
-```
-createuser rails
+```console
+$ createuser rails
 ```
 
 > An important note: this isn't actually creating a user on your machine, it's simply making a user inside of Postgres. If you ask me, this should be called something like `createpostgresuser`. If you're more interested in what `createuser` can do, you can find out more with `man createuser`.
 
 Next up, give that user some superpowers. You'll need to make your new user a superuser in order to have the ability to create new databases with commands like `rake db:create` or `rake db:migrate`. To do so, open up a Postgres console to the default table:
 
-```
-psql template1
+```console
+$ psql template1
 ```
 
 > `template1` is the default table for all fresh Postgres installations.

@@ -10,24 +10,24 @@ Using the power of a few gems and some good ol' ruby code, you can harness the p
 
 First off, we'll need to install some software on your machine that allows you to read image metadata.
 
-```
-brew install exiftool
+```console
+$ brew install exiftool
 ```
 
 > `exiftool` is the Perl application that allows you to read the metadata, but don't be thrown off by this requirement. While installing this application with brew may not seem ideal for portability to services like Heroku, there is a [gem](https://github.com/wilg/mini_exiftool_vendored) that includes this Perl library and will allow you to run this in the herokusphere.
 
 Great. Let's create a new Rails application:
 
-```
-rails new photo_plotter
-cd photo_plotter
+```console
+$ rails new photo_plotter
+$ cd photo_plotter
 ```
 
 And create a `Picture` model that Paperclip will later utilize to upload files:
 
-```
-rails g scaffold picture title:string
-rake db:migrate
+```console
+$ rails g scaffold picture title:string
+$ rake db:migrate
 ```
 
 Next up, edit your `Gemfile` and add the following:
@@ -41,8 +41,8 @@ gem 'mini_exiftool'
 
 And then install the new gems:
 
-```
-bundle
+```console
+$ bundle
 ```
 
 ### Configuring Paperclip
@@ -58,8 +58,8 @@ Now let's configure Paperclip. These instructions come right from their [readme]
 
 2. Create a migration to add the Paperclip attributes to the `Picture` model:
 
-   ```
-   rails g migration AddImageToPictures
+   ```console
+   $ rails g migration AddImageToPictures
    ```
 
 3. In the newly generated `/db/migrate/` file, replace the blank `change` method with the following code:
@@ -76,8 +76,8 @@ Now let's configure Paperclip. These instructions come right from their [readme]
 
 4. And then migrate the database:
 
-   ```
-   rake db:migrate
+   ```console
+   $ rake db:migrate
    ```
 
 5. Great. Now the model is set up, but we need to make sure that our views have a way of uploading pictures. Let's update `app/views/pictures/_form.html.erb` and add the following immediately before the submit button's `div`:
@@ -105,9 +105,9 @@ Now let's configure Paperclip. These instructions come right from their [readme]
 
 Perfect. Paperclip is installed and should be working locally. Next up we need to create two attributes (`latitude` and `longitude`) on the `Picture` model.
 
-```
-rails g migration AddLatitudeAndLongitudeToPicture latitude:float longitude:float
-rake db:migrate
+```console
+$ rails g migration AddLatitudeAndLongitudeToPicture latitude:float longitude:float
+$ rake db:migrate
 ```
 
 ### The Good Stuff
@@ -159,13 +159,13 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 And bundle to install the gem:
 
-```
-bundle
+```console
+$ bundle
 ```
 
 And then we add our API key to `.env` (obviously replace with your own, the below one is not functional):
 
-```
+```env
 GOOGLE_MAPS_API_KEY=AIzaSyAfCI6RpkFNMbrnUDlIV4MAAbaRGiU-2k
 ```
 

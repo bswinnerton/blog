@@ -24,38 +24,38 @@ and flash the firmware.
 
 3. Clone the tmk\_keyboard repository and `cd` into the hhkb directory:
 
-   ```
-   git clone git@github.com:tmk/tmk_keyboard
-   cd tmk_keyboard/keyboard/hhkb/
+   ```console
+   $ git clone git@github.com:tmk/tmk_keyboard
+   $ cd tmk_keyboard/keyboard/hhkb/
    ```
 
 4. This is where Crosspack comes in. You may need to restart your terminal in
 order for the `avr-gcc` binary to be available to you. Compile the
 tmk\_keyboard application:
 
-   ```
-   make -f Makefile
+   ```console
+   $ make -f Makefile
    ```
 
 5. Hit the reset button-looking switch on the back of your new controller.
 
 6. Compile the dfu code:
 
-   ```
-   make -f Makefile dfu
+   ```console
+   $ make -f Makefile dfu
    ```
 
 7. Compile the keymap you would like to use (denoted by the text after
 "keymap\_" in the filename):
 
-   ```
-   make KEYMAP=hhkb
+   ```console
+   $ make KEYMAP=hhkb
    ```
 
 8. Flash the device with the new keymap:
 
-   ```
-   make dfu
+   ```console
+   $ make dfu
    ```
 
 Voila! You should have the new keymap enabled, and be able to switch to it by
