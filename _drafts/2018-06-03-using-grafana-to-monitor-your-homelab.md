@@ -8,7 +8,7 @@ I have a rather complex mix of physical hosts, KVM guests, and Docker containers
 
 I use Grafana for this, and after taking the steps in this blog post, the final result will look something like this:
 
-![Grafana]({{ site.baseurl }}/public/images/grafana-docker.png)
+![Grafana]({{ site.baseurl }}/public/images/2018/06/03/grafana.png)
 
 ## Setting up Grafana
 
@@ -16,22 +16,22 @@ Grafana is an open source metrics dashboard. I've chosen to run Grafana as a Doc
 
 We're going to start by creating two Docker volumes. One for Grafana's configuration file, and another for its persistent data (for example the dashboards). Volumes are handy because they counteract the ephemeral nature of containers; when a container is destroyed but brought back up with the same volume, everything will feel the same.
 
-```shell
-sudo docker volume create grafana-config
-sudo docker volume create grafana-data
+```console
+$ sudo docker volume create grafana-config
+$ sudo docker volume create grafana-data
 ```
 
 This will result in two new folders on your Docker host: `/var/lib/docker/volumes/grafana-config/_data/` and `/var/lib/docker/volumes/grafana-data/_data/`. They'll start out empty, but once we get Grafana running, you'll notice data will start to appear in them.
 
 After that, we can run the following command to add the container:
 
-```shell
-sudo docker run -d \
-  --name="grafana" \
+```console
+$ sudo docker run -d \
+  --name=grafana \
   --restart=always \
-  --expose 3000 \
-  -v grafana-data:/var/lib/grafana \
-  -v grafana-config:/etc/grafana \
+  --publish=3000:3000 \
+  --volume=grafana-data:/var/lib/grafana \
+  --volume=grafana-config:/etc/grafana \
   -e "GF_SECURITY_ADMIN_PASSWORD=hKg9szzXaQ7NkiRbT97n" \
   grafana/grafana
 ```
@@ -41,111 +41,45 @@ This command is relatively intuitive, but to break it down piece by piece:
 - `sudo docker run`: Docker needs to run as root, so we preface the command with `sudo`.
 - `-d`: For Grafana, we'll want this container to run in the background as a "daemon".
 - `--restart=always`: This flag denotes that we want the system to always reboot the container in the event of a failure, as well as automatically when Docker starts.
-- `--expose 3000`: This will expose the internal port 3000 on the host's port 3000. This is the port that Grafana runs on, and how we'll access the web interface.
-- `-v grafana-data:/var/lib/grafana`: This mounts the `grafana-data` volume that we created earlier in container's filesystem at `/var/lib/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L9) as where it will look for the Grafana data.
-- `-v grafana-config:/etc/grafana`: This mounts the `grafana-config` volume that we created earlier in the container's filesystem at `/etc/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L8) as where it will look for the Grafana configuration.
+- `--publish=3000:3000`: This will publish the internal port 3000 on the host's port 3000. This is the port that Grafana runs on, and how we'll access the web interface.
+- `--volume=grafana-data:/var/lib/grafana`: This mounts the `grafana-data` volume that we created earlier in container's filesystem at `/var/lib/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L9) as where it will look for the Grafana data.
+- `--volume=grafana-config:/etc/grafana`: This mounts the `grafana-config` volume that we created earlier in the container's filesystem at `/etc/grafana`, which is defined in the [`Dockerfile`](https://github.com/grafana/grafana-docker/blob/89b7c50c1e69ba0c9902ef90b33e98b3d73bbf47/Dockerfile#L8) as where it will look for the Grafana configuration.
 - `-e "GF_SECURITY_ADMIN_PASSWORD=hKg9szzXaQ7NkiRbT97n"`: This sets an environment variable that will be used by the container to set the default admin user's password. **You should change this value**.
 
 Now Grafana should be running on port `3000` of your Docker host.
 
-## Node Exporter
+![Grafana-login]({{ site.baseurl }}/public/images/2018/06/03/grafana-login.png)
 
-```
-wget node_exporter
-tar xzf
-sudo cp node_exporter /usr/local/bin
-```
+And you can sign in using the `admin` account and the password you used above:
 
-`/etc/systemd/system/node_exporter.service`
+![Grafana-startup]({{ site.baseurl }}/public/images/2018/06/03/grafana-startup.png)
 
-```
-[Unit]
-Description=Node Exporter
-
-[Service]
-User=root
-ExecStart=/usr/local/bin/node_exporter $OPTIONS
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```
-sudo systemctl enable node_exporter.service
-sudo systemctl start node_exporter.service
-```
-
-## Docker Setup
-
-### cadvisor
-
-```
-sudo docker run \
-    --restart=always \
-    --volume=/:/rootfs:ro \
-    --volume=/var/run:/var/run:rw \
-    --volume=/sys:/sys:ro \
-    --volume=/var/lib/docker/:/var/lib/docker:ro \
-    --volume=/dev/disk/:/dev/disk:ro \
-    --publish=8080:8080 \
-    --detach=true \
-    --name=cadvisor \
-    google/cadvisor:latest
-```
-
-### InfluxDB
-
-```
-sudo docker volume create influxdb-config
-sudo docker volume create influxdb-data
-```
-
-```
-sudo su -
-docker run --rm influxdb influxd config > /var/lib/docker/volumes/influxdb-config/_data/influxdb.conf
-exit
-```
-
-```
-sudo docker run -d \
-    --name="influxdb" \
-    --restart=always \
-    -p 8086:8086 \
-    -v influxdb-data:/var/lib/influxdb \
-    -v influxdb-config:/etc/influxdb \
-    influxdb -config /etc/influxdb/influxdb.conf
-```
-
-```
-sudo docker exec -it influxdb influx
-USE _internal
-CREATE DATABASE telegraf
-```
+## Monitoring Docker
 
 ### Prometheus
 
-```
-sudo docker volume create prometheus-config
-sudo docker volume create prometheus-data
+```console
+$ sudo docker volume create prometheus-config
+$ sudo docker volume create prometheus-data
 ```
 
 TODO: Add link to where you found this info:
 
-```
-sudo chown -R nobody /var/lib/docker/volumes/prometheus-config
-sudo chown -R nobody /var/lib/docker/volumes/prometheus-data
+```console
+$ sudo chown -R nobody /var/lib/docker/volumes/prometheus-config
+$ sudo chown -R nobody /var/lib/docker/volumes/prometheus-data
 ```
 
-```
-sudo docker run -d \
-    --name=prometheus \
-    --restart=always \
-    -p 9090:9090 \
-    -v prometheus-config:/etc/prometheus \
-    -v prometheus-data:/prometheus \
-    prom/prometheus \
-    --config.file=/etc/prometheus/prometheus.yml \
-    --storage.tsdb.path=/prometheus
+```console
+$ sudo docker run -d \
+  --name=prometheus \
+  --restart=always \
+  -p 9090:9090 \
+  -v prometheus-config:/etc/prometheus \
+  -v prometheus-data:/prometheus \
+  prom/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/prometheus
 ```
 
 `/var/lib/docker/volumes/prometheus-config/_data/prometheus.yml`
@@ -187,6 +121,84 @@ scrape_configs:
   - job_name: 'node_exporter'
     static_configs:
       - targets: ['containers.brooks.network:9100', 'nuc7i5.brooks.network:9100', 'unifi.brooks.network:9100', 'homebridge.brooks.network:9100']
+```
+
+
+### cadvisor
+
+```
+sudo docker run \
+    --restart=always \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:rw \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    --volume=/dev/disk/:/dev/disk:ro \
+    --publish=8080:8080 \
+    --detach=true \
+    --name=cadvisor \
+    google/cadvisor:latest
+```
+
+
+## Monitoring Physical Hosts
+
+### Node Exporter
+
+```
+wget node_exporter
+tar xzf
+sudo cp node_exporter /usr/local/bin
+```
+
+`/etc/systemd/system/node_exporter.service`
+
+```
+[Unit]
+Description=Node Exporter
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/node_exporter $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+sudo systemctl enable node_exporter.service
+sudo systemctl start node_exporter.service
+```
+
+## Monitoring Other Devices with SNMP
+
+### InfluxDB
+
+```
+sudo docker volume create influxdb-config
+sudo docker volume create influxdb-data
+```
+
+```
+sudo su -
+docker run --rm influxdb influxd config > /var/lib/docker/volumes/influxdb-config/_data/influxdb.conf
+exit
+```
+
+```
+sudo docker run -d \
+    --name="influxdb" \
+    --restart=always \
+    -p 8086:8086 \
+    -v influxdb-data:/var/lib/influxdb \
+    -v influxdb-config:/etc/influxdb \
+    influxdb -config /etc/influxdb/influxdb.conf
+```
+
+```
+sudo docker exec -it influxdb influx
+USE _internal
+CREATE DATABASE telegraf
 ```
 
 ### Telegraf
