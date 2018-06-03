@@ -16,7 +16,7 @@ Grafana is an open source metrics dashboard. I've chosen to run Grafana as a Doc
 
 We're going to start by creating two Docker volumes. One for Grafana's configuration file, and another for its persistent data (for example the dashboards). Volumes are handy because they counteract the ephemeral nature of containers; when a container is destroyed but brought back up with the same volume, everything will feel the same.
 
-```
+```shell
 sudo docker volume create grafana-config
 sudo docker volume create grafana-data
 ```
@@ -25,7 +25,7 @@ This will result in two new folders on your Docker host: `/var/lib/docker/volume
 
 After that, we can run the following command to add the container:
 
-```
+```shell
 sudo docker run -d \
   --name="grafana" \
   --restart=always \
@@ -93,28 +93,6 @@ sudo docker run \
     google/cadvisor:latest
 ```
 
-### Grafana
-
-```
-sudo docker volume create grafana-config
-sudo docker volume create grafana-data
-```
-
-```
-sudo docker run -d \
-    --name="grafana" \
-    --restart=always \
-    --expose 3000 \
-    -v grafana-data:/var/lib/grafana \
-    -v grafana-config:/etc/grafana \
-    -e VIRTUAL_HOST=graphs.brooks.network \
-    -e VIRTUAL_PORT=3000 \
-    -e LETSENCRYPT_HOST=graphs.brooks.network \
-    -e LETSENCRYPT_EMAIL=bswinnerton@gmail.com \
-    -e "GF_SECURITY_ADMIN_PASSWORD=ujETk4BHUdcFp4MTrkr3B95n" \
-    grafana/grafana
-```
-
 ### InfluxDB
 
 ```
@@ -172,7 +150,7 @@ sudo docker run -d \
 
 `/var/lib/docker/volumes/prometheus-config/_data/prometheus.yml`
 
-```
+```yaml
 # my global config
 global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
