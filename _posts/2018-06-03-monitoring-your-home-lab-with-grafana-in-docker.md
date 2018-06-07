@@ -189,13 +189,17 @@ Next, click the large + sign on the top left of the screen and choose "Import". 
 
 ## Monitoring Physical Hosts
 
-### Node Exporter
+Physical hosts can be monitored with a tool from the same folks that make Prometheus called Node Exporter. This is a small binary that runs as a daemon in the background, and then Prometheus comes along and pulls the data.
+
+To install it, find the latest version [here](https://github.com/prometheus/node_exporter/releases/latest/) for your OS. I'll use 0.16.0 as an example:
 
 ```
-wget node_exporter
-tar xzf
+wget https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-amd64.tar.gz
+tar xzf node_exporter-0.16.0.linux-amd64.tar.gz
 sudo cp node_exporter /usr/local/bin
 ```
+
+Then, we can schedule it to run on boot and in the background. Edit this file:
 
 `/etc/systemd/system/node_exporter.service`
 
@@ -211,53 +215,23 @@ ExecStart=/usr/local/bin/node_exporter $OPTIONS
 WantedBy=multi-user.target
 ```
 
+And then enable and start the service.
+
 ```
 sudo systemctl enable node_exporter.service
 sudo systemctl start node_exporter.service
 ```
 
-## Monitoring Other Devices with SNMP
+From there, we just need to tell Prometheus to start looking for the new physical host that node exporter is running on.
 
-### InfluxDB
+Back in our Prometheus config:
 
-```
-sudo docker volume create influxdb-config
-sudo docker volume create influxdb-data
-```
+`/var/lib/docker/volumes/prometheus-config/_data/prometheus.yml`
 
-```
-sudo su -
-docker run --rm influxdb influxd config > /var/lib/docker/volumes/influxdb-config/_data/influxdb.conf
-exit
+```yaml
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['containers.brooks.network:9100', 'nuc7i5.brooks.network:9100', 'unifi.brooks.network:9100', 'homebridge.brooks.network:9100']
 ```
 
-```
-sudo docker run -d \
-    --name="influxdb" \
-    --restart=always \
-    -p 8086:8086 \
-    -v influxdb-data:/var/lib/influxdb \
-    -v influxdb-config:/etc/influxdb \
-    influxdb -config /etc/influxdb/influxdb.conf
-```
-
-```
-sudo docker exec -it influxdb influx
-USE _internal
-CREATE DATABASE telegraf
-```
-
-### Telegraf
-
-```
-sudo docker volume create telegraf-config
-```
-
-```
-sudo docker run -d \
-    --name telegraf \
-    --restart=always \
-    -v telegraf-config:/etc/telegraf \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    bswinnerton/telegraf-snmp-unifi
-```
+And then metrics should start reporting!
