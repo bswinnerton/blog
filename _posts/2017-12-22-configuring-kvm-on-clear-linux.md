@@ -90,6 +90,17 @@ Name=eno1
 Bridge=br0
 ```
 
+We'll also want to configure the bridge so that packets which traverse it are [sent to iptables for processing](https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf):
+
+
+`/etc/sysctl.d/90-bridge.conf`
+
+```
+net.bridge.bridge-nf-call-arptables = 0
+net.bridge.bridge-nf-call-ip6tables = 0
+net.bridge.bridge-nf-call-iptables = 0
+```
+
 Lastly, we need to restart the network services in order for our changes to take affect. You can either use `systemctl restart systemd-networkd` or restart the computer.
 
 Once your machine is back online, you can verify everything worked by executing `networkctl` and looking for an output similar to:
