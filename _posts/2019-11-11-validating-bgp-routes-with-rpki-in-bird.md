@@ -71,7 +71,7 @@ gortr    | time="2019-11-11T16:21:24Z" level=info msg="Updated added, new serial
 
 Great, now gortr has a list of RPKI valid prefixes, we just have to get them over to BIRD. As of version 2.0.7, BIRD supports [two ways](https://bird.network.cz/?get_doc&v=20&f=bird-6.html#ss6.13) of transporting this data: unencrypted TCP and SSH. For today’s post let’s use TCP.
 
-Despite not using SSH as the transport, we need to ensure that BIRD is compiled with support for libssh ([source](https://bird.network.cz/pipermail/bird-users/2019-November/013962.html). The libssh package varies by distribution, but if you’re on a Debian-based host you can use `libssh-dexv`. Start by installing some of BIRD’s dependencies, downloading, and compiling it:
+Despite not using SSH as the transport, we need to ensure that BIRD is compiled with support for libssh ([source](https://bird.network.cz/pipermail/bird-users/2019-November/013962.html). The libssh package varies by distribution, but if you’re on a Debian-based host you can use `libssh-dev`. Start by installing some of BIRD’s dependencies, downloading, and compiling it:
 
 ```
 apt install build-essential flex bison libncurses5-dev libreadline-dev libssh-dev
