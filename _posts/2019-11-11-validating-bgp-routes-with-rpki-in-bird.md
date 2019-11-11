@@ -4,7 +4,7 @@ title: Validating BGP Routes with RPKI in BIRD
 author: Brooks Swinnerton
 ---
 
-## Introduction to BGP
+### Introduction to BGP
 
 For some time now, I’ve been fascinated by the way that networks interconnect with one another. What is happening when I type `google.com` into my browser? How does my ISP send my request to Google? What does that interconnection look like?
 
@@ -32,7 +32,7 @@ Inspecting the traceroute output, we can see the first seven hops all include th
 
 At each of these autonomous system boundaries, the routers establish a BGP session with one another and exchange routes that they know how to get to.
 
-## The dangers of BGP
+### The dangers of BGP
 
 BGP is a naive protocol that blindly trusts the routes being passed between autonomous systems. What happens if an AS accidentally shares a route that doesn’t belong to it? Could a bad actor maliciously originate a route and intercept that traffic? The answer is yes, and has been the cause of numerous outages across the internet like [this one](https://blog.cloudflare.com/how-verizon-and-a-bgp-optimizer-knocked-large-parts-of-the-internet-offline-today/).
 
@@ -40,7 +40,7 @@ One solution to this is RPKI, in which the network operators can cryptographical
 
 This is great, but requires that autonomous systems only accept RPKI valid routes, which requires changes to their BGP-facing routers.
 
-## RPKI validation with BIRD
+### RPKI validation with BIRD
 
 This article details how to drop invalid RPKI routes using [BIRD](https://bird.network.cz/), a software based router on Linux.
 
@@ -180,7 +180,7 @@ Total: 4612 of 4612 routes for 4612 networks in 4 tables
 
 That’s better. And terrifying. It looks like we’re filtering 4,612 invalid routes from this session. This `reload in all` quirk is something that BIRD has not solved yet, but is expected to be fixed in a subsequent release.
 
-## Making sure it all worked
+### Making sure it all worked
 
 You can verify that your autonomous system isn’t accepting invalid RPKI routes by browsing to https://www.ripe.net/s/rpki-test. If all is well, you’ll see the following:
 
