@@ -184,6 +184,8 @@ That’s better. And terrifying. It looks like we’re filtering 4,612 invalid r
 
 You can verify that your autonomous system isn’t accepting invalid RPKI routes by browsing to https://www.ripe.net/s/rpki-test. If all is well, you’ll see the following:
 
-<img src="https://i.imgur.com/zFL0HZ7.png" height="300px" width="auto" />
+<img src="https://i.imgur.com/zFL0HZ7.png" />
+
+![](https://i.imgur.com/neGQ7Bj.png)
 
 🎉
