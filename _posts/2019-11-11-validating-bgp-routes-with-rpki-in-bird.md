@@ -50,7 +50,7 @@ I’ve chose to run [gortr](https://github.com/cloudflare/gortr), mostly because
 
 I started by setting up gortr on a Docker host with the following `docker-compose.yml` file:
 
-```
+```yaml
 version: '3'
 
 services:
