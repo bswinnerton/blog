@@ -4,9 +4,8 @@ title: Validating BGP Routes with RPKI in BIRD
 author: Brooks Swinnerton
 ---
 
-# Validating BGP Routes with RPKI in BIRD
-
 ## Introduction to BGP
+
 For some time now, I’ve been fascinated by the way that networks interconnect with one another. What is happening when I type `google.com` into my browser? How does my ISP send my request to Google? What does that interconnection look like?
 
 I’ve come to learn that the answer is BGP: the Border Gateway Protocol. BGP is a routing protocol in which two networks (known as “autonomous systems”) exchange information about how to get to their slice of the internet. We can visualize the boundaries of autonomous systems with a `traceroute`. As I write this article from a coffee shop, I start a trace route to Google:
