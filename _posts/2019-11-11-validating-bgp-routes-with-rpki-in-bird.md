@@ -44,7 +44,7 @@ This article details how to drop invalid RPKI routes using [BIRD](https://bird.n
 
 It’s worth noting that RPKI validation is not done on the router itself, but instead on a validator. The valid routes are then sent to the router using a protocol called [“RPKI to RTR"](https://tools.ietf.org/html/rfc6810). The reason the validation doesn’t take place on the router is largely because this cryptographic verification can be expensive, and most routers aren’t well equipped to do it.
 
-There are many different options out there for validators. They range from Cloudflare’s [gortr](https://github.com/cloudflare/gortr) (written in Go), NLnet Labs’ [routinator](https://github.com/NLnetLabs/routinator) (written in Rust), and [RTRLib](http://rtrlib.realmv6.org/).
+There are many different options out there for RPKI to RTR implementations. They range from Cloudflare’s [gortr](https://github.com/cloudflare/gortr) (written in Go), NLnet Labs’ [routinator](https://github.com/NLnetLabs/routinator) (written in Rust and also does the validation), and [RTRLib](http://rtrlib.realmv6.org/).
 
 I’ve chose to run [gortr](https://github.com/cloudflare/gortr), mostly because it can run inside a simple Docker container and because Cloudflare caches the aggregated prefix data sources at its edges, which means it should be relatively quick.
 
@@ -84,7 +84,7 @@ make
 make install
 ```
 
-Once you have BIRD up and running, we need to configure it to point to our validator. This can be done with the following configuration:
+Once you have BIRD up and running, we need to configure it to point to our RPKI-to-Router server. This can be done with the following configuration:
 
 ```
 roa4 table r4;
@@ -110,14 +110,14 @@ function is_v6_rpki_invalid () {
 }
 ```
 
-_(Be sure to swap out `docker.fqdn.com` for the hostname or IP address of your validator)._
+_(Be sure to swap out `docker.fqdn.com` for the hostname or IP address of your RPKI-to-Router server)._
 
 This configuration does a few things:
 1. Creates two new routing table for ROA routes (IPv4 and IPV6)
-2. Configures the rpki protocol with the routing tables, address of the validator, and a few sensible values for how long to hold onto the RPKI validated routes if the validator goes down
+2. Configures the rpki protocol with the routing tables, address of the RPKI-to-Router server, and a few sensible values for how long to hold onto the RPKI validated routes if the server goes down
 3. Creates two new functions that can be used in `import`s to check if a route is invalid
 
-Once you’ve saved your configuration, open a BIRD console with `birdc`, reload the configuration, and check to see if it can communicate with the validator:
+Once you’ve saved your configuration, open a BIRD console with `birdc`, reload the configuration, and check to see if it can communicate with the server:
 
 ```
 bird> configure soft
