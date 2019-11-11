@@ -14,7 +14,7 @@ h2, h3, h4  {
 }
 
 p, li {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 300;
   line-height: 1.7;
   letter-spacing: 0.4px;
@@ -121,5 +121,9 @@ kbd {
 
   h1 {
     font-size: 48px;
+  }
+
+  p, li {
+    font-size: 22px;
   }
 }
