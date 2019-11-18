@@ -3,6 +3,19 @@ layout: default
 title: Home
 ---
 
+<p>👋 Hi there, my name is Brooks Swinnerton. I work at GitHub as an Engineering Manager where we support real time systems like webhooks. I operate <a href="https://as397143.peeringdb.com">AS397143</a> and write about the things I learn about networking.</p>
+
+<p class="">You can find me on the internet below:</p>
+<ul>
+  <li><a href="https://twitter.com/bswinnerton">Twitter</a></li>
+  <li><a href="https://www.linkedin.com/in/bswinnerton/">LinkedIn</a></li>
+  <li><a href="https://keybase.io/bswinnerton">Keybase</a></li>
+</ul>
+
+<hr>
+
+<h4>Blog Posts</h4>
+
 {% for post in paginator.posts %}
   <strong>{{ post.date | date: "%B %-d, %Y" }}</strong>
   <p><a href="{{ post.url }}">{{ post.title }}</a></p>

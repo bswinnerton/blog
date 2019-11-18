@@ -77,6 +77,8 @@ kbd {
 .heading .site-name {
   font-family: 'Cutive Mono', monospace;
   text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .heading .issue-number, .heading .issue-date {
