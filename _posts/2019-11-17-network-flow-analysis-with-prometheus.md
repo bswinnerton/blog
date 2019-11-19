@@ -209,7 +209,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   flow-exporter:
-    image: docker.pkg.github.com/neptune-networks/flow-exporter/flow-exporter:latest
+    image: bswinnerton/flow-exporter:latest
     container_name: flow-exporter
     restart: always
     command: --brokers=kafka:19092 --topic=pmacct.acct --asn=397143
