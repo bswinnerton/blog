@@ -1,4 +1,4 @@
----
+--
 layout: post
 title: Network Flow Analysis With Prometheus
 author: Brooks Swinnerton
@@ -57,7 +57,7 @@ WantedBy=multi-user.target
 
 Now that we have pmacct installed, we can start working on the configuration file that will monitor the network interfaces and send the data to Kafka.
 
-**`/etc/pmacctd.conf`**
+**`/etc/pmacctd/pmacctd.conf`**
 ```yaml
 daemonize: false
 pcap_interfaces_map: /etc/pmacct/interfaces.map
