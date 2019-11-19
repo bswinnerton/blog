@@ -51,6 +51,7 @@ code {
   background-color: #EFF1F5;
   color: #4F5B66;
   font-size: 18px;
+  white-space: pre-wrap;
 }
 
 pre code {
