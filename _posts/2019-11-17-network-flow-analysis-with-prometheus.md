@@ -41,7 +41,7 @@ sudo make install
 
 And then let's set up a systemd service for pmacctd:
 
-`/etc/systemd/system/pmacctd.service`
+**`/etc/systemd/system/pmacctd.service`**
 
 ```ini
 [Unit]
