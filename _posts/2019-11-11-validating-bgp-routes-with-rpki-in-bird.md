@@ -54,7 +54,7 @@ I started by setting up gortr on a Docker host with the following `docker-compos
 version: '3'
 
 services:
-  routinator:
+  gortr:
     image: cloudflare/gortr
     container_name: gortr
     restart: unless-stopped
